@@ -1,0 +1,25 @@
+
+.timeButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.resultData{
+  list-style-type: none;
+}
+
+#wpm {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 0;
+}
+
+#accuracy {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 0;
+}

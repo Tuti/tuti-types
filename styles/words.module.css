@@ -1,0 +1,25 @@
+.words {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.word {
+  display: flex ; 
+  margin: 0 .2rem;
+  font-size: 1.5rem;
+  /* color: rgb(98, 174, 237); */
+  /* color: rgb(245, 76, 128); */
+  color: #939EAD;
+}
+
+.active {
+  border: 1.5px solid rgb(245, 76, 128);
+}
+
+.incorrect {
+  background-color: red;
+}
