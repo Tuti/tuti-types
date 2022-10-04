@@ -3,8 +3,7 @@ import styles from '../styles/results.module.css';
 export default function Results(props) {
   const normalizeFactor = 1
   const wpm = (props.correctCharacterCount / 5) * normalizeFactor; 
-  const accuracy = Math.ceil((props.correctCharacterCount / props.keystrokeCount));
-  
+  const accuracy = (props.correctCharacterCount / props.keystrokeCount);
 
   const count = props.correctCharacterCount;
   const keystroke = props.keystrokeCount;
@@ -31,4 +30,3 @@ export default function Results(props) {
   )
 }
 
-//figure out whats wrong with restart test inputref

@@ -1,10 +1,14 @@
 
-.buttonGroup {
+.button-group {
   display: flex;
   gap: 1rem;
 }
 
-.textButton {
+.text-button {
   color: #939EAD;
   cursor: pointer;
+}
+
+.text-button-active {
+  color: rgb(245, 76, 128);
 }

@@ -1,21 +1,37 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Counter from '../components/counter'
+import { useState } from 'react'
 import Modifiers from '../components/modifiers'
 import Navbar from '../components/navbar'
-import TimeSelector from '../components/timeSelector'
 import TypeTest from '../components/typetest'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  const defaultSettings = {
+    time: 60, //seconds
+    wordList: 'top200',
+    wordsPerRow: 12,
+  }
+
+  const [isActiveTest, setIsActiveTest] = useState(false);
+  const [timer, setTimer] = useState({initialTime: defaultSettings.time, currentTime: 60});
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
         <Navbar />
-        <Modifiers />
+        <Modifiers 
+          timer={timer} 
+          setTimer={setTimer}
+          isActiveTest={isActiveTest}
+          setIsActiveTest={setIsActiveTest}
+        />
       </div>
       <div className={styles.middle}>
-        <TypeTest />
+        <TypeTest 
+          timer={timer} 
+          setTimer={setTimer}
+          isActiveTest={isActiveTest}
+          setIsActiveTest={setIsActiveTest}
+        />
       </div>
       <div className={styles.bottom}>
 

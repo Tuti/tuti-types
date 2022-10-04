@@ -1,22 +1,17 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { wordsTop200, wordsTop1000 } from '../wordlist.js';
 import Counter from "../components/counter";
 import Words from '../components/words';
 import Results from "../components/results";
 import RefreshButton from '../components/refreshButton.js';
 import styles from '../styles/typetest.module.css';
-import { FLIGHT_PROPS_ID } from "next/dist/shared/lib/constants.js";
 
-export default function TypeTest() {
-  const WORDS_PER_ROW = 12; //good amount for well formatted row
-  const INITIAL_TIME = 60; //seconds
+export default function TypeTest(props) {
   const inputRef = useRef();
 
   const [isTestVisible, setIsTestVisible] = useState(true);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
 
-  const [isActiveTest, setIsActive] = useState(false);
-  const [timer, setTimer] = useState(INITIAL_TIME);
   const [input, setInput] = useState('');
   const [isInputCorrect, setIsInputCorrect] = useState(true);
   
@@ -32,10 +27,12 @@ export default function TypeTest() {
     let word = '';
     let words = [];
 
+    console.log('fillwordbucket');
     for(let i = 0; i < 500; i++) {
       word = getRandomWord();
       words.push({word: word, userInput: '', isCorrect: false, isCompleted: false, id: i});
     }
+    console.log({words});
     setWordBucket(words);
   }
 
@@ -88,18 +85,12 @@ export default function TypeTest() {
     const functionKeysNotIncluded = [8, 16, 17, 18, 37, 38, 39, 40, 224];
     if(functionKeysNotIncluded.includes(e.keyCode)) { return }
 
-    const kCount = keystrokeCount;
-
-    // if(e.keyCode === 32) {
-    //   console.log('increment keycount with space')
-    //   setKeystrokeCount(kCount + 2); //acounts for space
-    //   return;
-    // }
+    const kCount = keystrokeCount
     setKeystrokeCount(kCount + 1);
   }
 
   function nextWord() {
-    if(rowIndex + WORDS_PER_ROW - 1 === activeIndex) {
+    if(rowIndex + 12 - 1 === activeIndex) {
       setRowIndex(activeIndex + 1);
     }
     const aIndex = activeIndex;
@@ -108,8 +99,8 @@ export default function TypeTest() {
 
   function restartTest(e) {
     if(e.keyCode !== 13) { return }
-    setInput('');
     
+    setInput('');
     if(!isResultsVisible) {
       inputRef.current.focus();
     }
@@ -120,10 +111,10 @@ export default function TypeTest() {
     setCorrectCharacterCount(0);
     setKeystrokeCount(0);
     setIsInputCorrect(true);
-    setTimer(INITIAL_TIME);
+    props.setTimer({...props.timer, currentTime: props.timer.initialTime});
     setIsTestVisible(true);
     setIsResultsVisible(false);
-    setIsActive(false);
+    props.setIsActiveTest(false);
   }
 
   function handleOnChange(e) {
@@ -140,10 +131,10 @@ export default function TypeTest() {
   }
 
   useEffect(() => {
-    if(!isActiveTest && input !== '' && timer === INITIAL_TIME) {
-      setIsActive(true);
+    if(!props.isActiveTest && input !== '' && props.timer.initialTime === props.timer.currentTime) {
+      props.setIsActiveTest(true);
     }
-  }, [isActiveTest, input]);
+  }, [props.isActiveTest, input, props.timer]);
 
   useEffect(() => {
     fillWordBucket();
@@ -154,10 +145,10 @@ export default function TypeTest() {
       {isTestVisible && 
         <div className={styles["test-wrapper"]}>
           <Counter 
-            timer={timer} 
-            setTimer={setTimer} 
-            isActiveTest={isActiveTest} 
-            setIsActive={setIsActive}
+            timer={props.timer}
+            setTimer={props.setTimer} 
+            isActiveTest={props.isActiveTest} 
+            setIsActiveTest={props.setIsActiveTest}
             setIsTestVisible={setIsTestVisible}
             setIsResultsVisible={setIsResultsVisible}
           />
@@ -168,7 +159,7 @@ export default function TypeTest() {
               isInputCorrect={isInputCorrect}
               wordBucket={wordBucket}
               setWordBucket={setWordBucket}
-              WORDS_PER_ROW={WORDS_PER_ROW}
+              wordsPerRow={12}
               
             />
           </div> 
