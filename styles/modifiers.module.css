@@ -1,5 +1,7 @@
 
 .modifiers {
   display: flex;
-  
+  padding: .5rem;
+  background-color: rgb(46, 52, 61);
 }
+

@@ -5,8 +5,10 @@
 
 .row {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  margin: 0 2rem;
 }
+
 .word {
   display: flex ; 
   margin: 0 .2rem;
@@ -16,10 +18,23 @@
   color: #939EAD;
 }
 
+.correct {
+  border: 1.5px solid rgb(245, 76, 128);
+}
+
 .active {
   border: 1.5px solid rgb(245, 76, 128);
 }
 
 .incorrect {
+  border: 1.5px solid red;
   background-color: red;
+}
+
+.final-correct {
+  color: white;
+}
+
+.final-incorrect { 
+  color: red;
 }

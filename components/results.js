@@ -8,8 +8,8 @@ export default function Results(props) {
 
   const count = props.correctCharacterCount;
   const keystroke = props.keystrokeCount;
-  console.log({count, keystroke});
 
+  console.log({wpm, accuracy, count, keystroke});
   return(
     <div className={styles.container}>
       <ul className={styles.resultData}>

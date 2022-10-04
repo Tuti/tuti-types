@@ -1,5 +1,10 @@
 
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+}
 
-.selector-list {
-  list-style-type: none;
+.textButton {
+  color: #939EAD;
+  cursor: pointer;
 }

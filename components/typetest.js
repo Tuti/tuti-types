@@ -5,63 +5,53 @@ import Words from '../components/words';
 import Results from "../components/results";
 import RefreshButton from '../components/refreshButton.js';
 import styles from '../styles/typetest.module.css';
+import { FLIGHT_PROPS_ID } from "next/dist/shared/lib/constants.js";
 
 export default function TypeTest() {
-  const MAX_CHARACTERS_PER_ROW = 68; //good amount for well formatted row
+  const WORDS_PER_ROW = 12; //good amount for well formatted row
   const INITIAL_TIME = 60; //seconds
   const inputRef = useRef();
 
   const [isTestVisible, setIsTestVisible] = useState(true);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
 
+  const [isActiveTest, setIsActive] = useState(false);
   const [timer, setTimer] = useState(INITIAL_TIME);
-  const [wordListNumber, setWordListNumber] = useState(0);
   const [input, setInput] = useState('');
   const [isInputCorrect, setIsInputCorrect] = useState(true);
-  const [isActiveTest, setIsActive] = useState(false);
-  const [activeBucket, setActiveBucket] = useState([]);
-  const [nextBucket, setNextBucket] = useState([]);
-  const [completeBucket, setCompleteBucket] = useState([]);
+  
+  const [wordList, setWordList] = useState('Top200');
+  const [wordBucket, setWordBucket] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [rowIndex, setRowIndex] = useState(0);
+  
   const [keystrokeCount, setKeystrokeCount] = useState(0);
   const [correctCharacterCount, setCorrectCharacterCount] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
-  const [wordIDs, setWordIDs] = useState(0); //running count of word id's
 
-  function fillWordBucket(setWordBucket) {
+  function fillWordBucket() {
+    let word = '';
     let words = [];
-    let characterCount = 0;
-    let wordID = wordIDs; 
 
-    while(characterCount < MAX_CHARACTERS_PER_ROW) { 
-      let word = getRandomWord();
-      characterCount += word.length + 1; //to account for space
-      words.push({word: word, id: wordID++});
+    for(let i = 0; i < 500; i++) {
+      word = getRandomWord();
+      words.push({word: word, userInput: '', isCorrect: false, isCompleted: false, id: i});
     }
-    setWordBucket(words)
-    setWordIDs(wordID);
+    setWordBucket(words);
   }
 
   function getRandomWord() {
-    switch(wordListNumber) {
-      case 0: 
-        console.log(wordsTop200.length);
+    switch(wordList) {
+      case 'Top200': 
         return wordsTop200[getRandomInt(199)]; //no one will know ok
-      case 1: 
+      case 'Top1000': 
         return wordsTop1000[getRandomInt(1000)];
        default: 
         console.log('error generating word');
     }
   }
 
-  function updateRows() {
-    const nRow = nextBucket;
-    setActiveBucket(nRow);
-    fillWordBucket(setNextBucket);
-  }
-
   function updateisInputCorrect(e) {
-    const currentWord = activeBucket[activeIndex].word;
+    const currentWord = wordBucket[activeIndex].word
     const userInput = e.target.value;
     const length = userInput.length;
     const subCurrentWord = currentWord.toString().substring(0, length);
@@ -77,18 +67,20 @@ export default function TypeTest() {
 
   function updateWordStats() {
     const uInput = input;
-    const currentWord = activeBucket[activeIndex].word;
+    const activeWord = wordBucket[activeIndex];
     const cCharacterCount = correctCharacterCount; 
-    const cBucket = completeBucket;
- 
-    if(uInput !== currentWord) { 
-      console.log(`correct char count: ${cCharacterCount}`);
-      setCompleteBucket([...cBucket, {word: currentWord, userinput: uInput, correct: false}]);
+    let wBucket = wordBucket;
+
+    if(uInput !== activeWord.word) { 
+      let word = {...activeWord, isCompleted: true};
+      wBucket[activeIndex] = word;
+      setWordBucket(wBucket);      
       return; 
     }
 
-    console.log(`correct char count: ${cCharacterCount + uInput.length}`);
-    setCompleteBucket([...cBucket, {word: currentWord, userInput: uInput, correct: true}]);
+    let word = {...activeWord, isCompleted: true, isCorrect: true}
+    wBucket[activeIndex] = word;
+    setWordBucket(wBucket);    
     setCorrectCharacterCount(cCharacterCount + uInput.length + 1);
   }
 
@@ -96,8 +88,6 @@ export default function TypeTest() {
     const functionKeysNotIncluded = [8, 16, 17, 18, 37, 38, 39, 40, 224];
     if(functionKeysNotIncluded.includes(e.keyCode)) { return }
 
-    let code = e.keyCode;
-    console.log({code});
     const kCount = keystrokeCount;
 
     // if(e.keyCode === 32) {
@@ -109,13 +99,9 @@ export default function TypeTest() {
   }
 
   function nextWord() {
-    //UPDATES ROW IF REACHED END
-    if(activeBucket.length <= activeIndex + 1) {
-      updateRows();
-      setActiveIndex(0);
-      return;
+    if(rowIndex + WORDS_PER_ROW - 1 === activeIndex) {
+      setRowIndex(activeIndex + 1);
     }
-
     const aIndex = activeIndex;
     setActiveIndex(aIndex + 1);
   }
@@ -127,15 +113,10 @@ export default function TypeTest() {
     if(!isResultsVisible) {
       inputRef.current.focus();
     }
-    console.log('restart test');
-    
-    //called 3 times to have 2 completely new rows
-    updateRows();
-    updateRows();
-    updateRows();
 
-    setCompleteBucket([]);
+    fillWordBucket();
     setActiveIndex(0);
+    setRowIndex(0);
     setCorrectCharacterCount(0);
     setKeystrokeCount(0);
     setIsInputCorrect(true);
@@ -160,10 +141,13 @@ export default function TypeTest() {
 
   useEffect(() => {
     if(!isActiveTest && input !== '' && timer === INITIAL_TIME) {
-      // console.log('useeffect')
       setIsActive(true);
     }
   }, [isActiveTest, input]);
+
+  useEffect(() => {
+    fillWordBucket();
+  }, []);
 
   return(
     <>
@@ -179,16 +163,13 @@ export default function TypeTest() {
           />
           <div className={styles.test}>
             <Words 
-              wordCount={wordCount}
               activeIndex={activeIndex}
-              activeBucket={activeBucket}
-              setActiveBucket={setActiveBucket}
-              nextBucket={nextBucket}
-              setNextBucket={setNextBucket}
-              wordIDs={wordIDs}
-              setWordIDs={setWordIDs}
-              fillWordBucket={fillWordBucket}
+              rowIndex={rowIndex}
               isInputCorrect={isInputCorrect}
+              wordBucket={wordBucket}
+              setWordBucket={setWordBucket}
+              WORDS_PER_ROW={WORDS_PER_ROW}
+              
             />
           </div> 
           <input value={input} onChange={handleOnChange} onKeyDown={handleOnKeyDown} ref={inputRef}/>
