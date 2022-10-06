@@ -1,5 +1,5 @@
 
-import styles from '../styles/timeSelector.module.css';
+import styles from '../styles/components/timeSelector.module.css';
 
 export default function TimeSelector(props) {
   const timeLimits = [{seconds: 15, normalizeFactor: 4}, {seconds: 30, normalizeFactor: 2}, {seconds: 60, normalizeFactor: 1}, {seconds: 120, normalizeFactor: .5}];

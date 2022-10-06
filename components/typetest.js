@@ -4,7 +4,8 @@ import Counter from "../components/counter";
 import Words from '../components/words';
 import Results from "../components/results";
 import RefreshButton from '../components/refreshButton.js';
-import styles from '../styles/typetest.module.css';
+import Modifiers from "./modifiers.js";
+import styles from '../styles/components/typetest.module.css';
 
 export default function TypeTest(props) {
   const inputRef = useRef();
@@ -144,6 +145,12 @@ export default function TypeTest(props) {
     <>
       {isTestVisible && 
         <div className={styles["test-wrapper"]}>
+          <Modifiers 
+            timer={props.timer} 
+            setTimer={props.setTimer}
+            isActiveTest={props.isActiveTest}
+            setIsActiveTest={props.setIsActiveTest}
+          />
           <Counter 
             timer={props.timer}
             setTimer={props.setTimer} 

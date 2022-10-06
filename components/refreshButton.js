@@ -1,5 +1,5 @@
 import Image from "next/image"
-import styles from '../styles/refreshbutton.module.css';
+import styles from '../styles/components/refreshbutton.module.css';
 
 export default function RefreshButton(props) {
   return(

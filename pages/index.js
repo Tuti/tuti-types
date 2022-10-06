@@ -16,16 +16,8 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.top}>
+      <div className={styles['center-content']}>
         <Navbar />
-        <Modifiers 
-          timer={timer} 
-          setTimer={setTimer}
-          isActiveTest={isActiveTest}
-          setIsActiveTest={setIsActiveTest}
-        />
-      </div>
-      <div className={styles.middle}>
         <TypeTest 
           timer={timer} 
           setTimer={setTimer}
@@ -33,10 +25,6 @@ export default function Home() {
           setIsActiveTest={setIsActiveTest}
         />
       </div>
-      <div className={styles.bottom}>
-
-      </div>
-
     </div> 
   )
 }

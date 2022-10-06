@@ -1,20 +1,19 @@
 .words {
   display: flex;
   flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .row {
   display: flex;
-  /* flex-wrap: wrap; */
-  margin: 0 2rem;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .word {
-  display: flex ; 
+  display: flex;
   margin: 0 .2rem;
-  font-size: 1.5rem;
-  /* color: rgb(98, 174, 237); */
-  /* color: rgb(245, 76, 128); */
+  font-size: 1.75rem;
   color: #939EAD;
 }
 

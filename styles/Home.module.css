@@ -1,20 +1,15 @@
 
 .container {
-  min-height: 100vh;
-  background-color: rgb(51, 58, 69);
-}
-
-.top {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background-color: rgb(51, 58, 69);
 }
 
-.middle {
-
-}
-
-.bottom {
-  
+.center-content {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
 }

@@ -1,5 +1,5 @@
 import Image from "next/image"
-import styles from '../styles/results.module.css';
+import styles from '../styles/components/results.module.css';
 export default function Results(props) {
   const normalizeFactor = 1
   const wpm = (props.correctCharacterCount / 5) * normalizeFactor; 

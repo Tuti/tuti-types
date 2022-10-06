@@ -1,5 +1,5 @@
 import useInterval from "../hooks/useInterval";
-import styles from '../styles/counter.module.css';
+import styles from '../styles/components/counter.module.css';
 
 export default function Counter(props) {
   useInterval(() => {

@@ -1,5 +1,5 @@
 import TimeSelector from "./timeSelector";
-import styles from '../styles/modifiers.module.css';
+import styles from '../styles/components/modifiers.module.css';
 
 export default function Modifiers(props) {
   

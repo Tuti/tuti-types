@@ -1,4 +1,4 @@
-import styles from '../styles/words.module.css';
+import styles from '../styles/components/words.module.css';
 
 export default function Words(props) {
   const activeRow = props.wordBucket.slice(props.rowIndex, (props.rowIndex + props.wordsPerRow)).map((value, index) => {

@@ -9,12 +9,10 @@
 }
 
 .test-wrapper {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* width: 100%; */
   gap: .5rem;
 }
 
@@ -23,13 +21,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: clamp(800px, 60vw, 875px);
+  /* width: 100%; */
+  /* padding: .5rem; */
   /* border: 1px solid black; */
 }
 
-.test-wrapper > * {
+/* .test-wrapper > * {
   padding: .5rem;
-}
+} */
 
 .no-outline:focus {
   outline: none;
