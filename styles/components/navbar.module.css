@@ -4,18 +4,18 @@
   align-items: center;
   margin-top: 1rem;
   width: 60vw;
-  color: rgb(245, 76, 128);
+  color: #F54C80;
 }
 
 .title {
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
-  color: rgb(245, 76, 128);
+  color: #F54C80;
 }
 
 .button {
-  /* border: 1px solid rgb(245, 76, 128); */
+  /* border: 1px solid #F54C80; */
   /* padding: .5rem; */
   font-size: 1.5rem;
   cursor: pointer;

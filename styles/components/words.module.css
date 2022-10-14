@@ -18,11 +18,11 @@
 }
 
 .correct {
-  border: 1.5px solid rgb(245, 76, 128);
+  border: 1.5px solid #F54C80;
 }
 
 .active {
-  border: 1.5px solid rgb(245, 76, 128);
+  border: 1.5px solid #F54C80;
 }
 
 .incorrect {

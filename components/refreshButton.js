@@ -1,10 +1,13 @@
 import Image from "next/image"
+import { Refresh } from './svgs/refresh'
 import styles from '../styles/components/refreshbutton.module.css';
 
 export default function RefreshButton(props) {
   return(
-    <button className={styles.refresh} onClick={props.restartTestOnClick} onKeyDown={props.restartTest}>
-      <Image src={'/refresh.svg'} alt={'refresh icon'} width={32} height={24}/>
-    </button>
+    <div className={styles['refresh-button']} onClick={props.restartTestOnClick} onKeyDown={props.restartTest}>
+      <Refresh fill={'#F54C80'}/>
+      <>Test</>
+    </div>
+    
   )
 }

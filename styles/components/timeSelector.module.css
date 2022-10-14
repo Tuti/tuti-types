@@ -1,4 +1,3 @@
-
 .button-group {
   display: flex;
   gap: 1rem;
@@ -10,5 +9,5 @@
 }
 
 .text-button-active {
-  color: rgb(245, 76, 128);
+  color: #F54C80;
 }
