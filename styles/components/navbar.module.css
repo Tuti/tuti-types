@@ -1,6 +1,33 @@
-
-
 .navbar {
-  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 60vw;
   color: rgb(245, 76, 128);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(245, 76, 128);
+}
+
+.button {
+  /* border: 1px solid rgb(245, 76, 128); */
+  /* padding: .5rem; */
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.left {
+  
+}
+
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
 }

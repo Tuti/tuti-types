@@ -4,14 +4,12 @@ import Counter from "../components/counter";
 import Words from '../components/words';
 import Results from "../components/results";
 import RefreshButton from '../components/refreshButton.js';
-import Modifiers from "./modifiers.js";
 import styles from '../styles/components/typetest.module.css';
+import { useTestVisible } from "../context/testContext.js";
 
 export default function TypeTest(props) {
   const inputRef = useRef();
-
-  const [isTestVisible, setIsTestVisible] = useState(true);
-  const [isResultsVisible, setIsResultsVisible] = useState(false);
+  const tv = useTestVisible();
 
   const [input, setInput] = useState('');
   const [isInputCorrect, setIsInputCorrect] = useState(true);
@@ -28,12 +26,10 @@ export default function TypeTest(props) {
     let word = '';
     let words = [];
 
-    console.log('fillwordbucket');
     for(let i = 0; i < 500; i++) {
       word = getRandomWord();
       words.push({word: word, userInput: '', isCorrect: false, isCompleted: false, id: i});
     }
-    console.log({words});
     setWordBucket(words);
   }
 
@@ -102,7 +98,7 @@ export default function TypeTest(props) {
     if(e.keyCode !== 13) { return }
     
     setInput('');
-    if(!isResultsVisible) {
+    if(tv.isTestVisible) {
       inputRef.current.focus();
     }
 
@@ -113,9 +109,25 @@ export default function TypeTest(props) {
     setKeystrokeCount(0);
     setIsInputCorrect(true);
     props.setTimer({...props.timer, currentTime: props.timer.initialTime});
-    setIsTestVisible(true);
-    setIsResultsVisible(false);
     props.setIsActiveTest(false);
+    tv.setIsTestVisible(true);
+  }
+
+  function restartTestOnClick() {
+    setInput('');
+    if(tv.isTestVisible) {
+      inputRef.current.focus();
+    }
+
+    fillWordBucket();
+    setActiveIndex(0);
+    setRowIndex(0);
+    setCorrectCharacterCount(0);
+    setKeystrokeCount(0);
+    setIsInputCorrect(true);
+    props.setTimer({...props.timer, currentTime: props.timer.initialTime});
+    props.setIsActiveTest(false);
+    tv.setIsTestVisible(true);
   }
 
   function handleOnChange(e) {
@@ -143,21 +155,14 @@ export default function TypeTest(props) {
 
   return(
     <>
-      {isTestVisible && 
+      {tv.isTestVisible && 
         <div className={styles["test-wrapper"]}>
-          <Modifiers 
-            timer={props.timer} 
-            setTimer={props.setTimer}
-            isActiveTest={props.isActiveTest}
-            setIsActiveTest={props.setIsActiveTest}
-          />
           <Counter 
             timer={props.timer}
             setTimer={props.setTimer} 
             isActiveTest={props.isActiveTest} 
             setIsActiveTest={props.setIsActiveTest}
-            setIsTestVisible={setIsTestVisible}
-            setIsResultsVisible={setIsResultsVisible}
+            setIsTestVisible={props.setIsTestVisible}
           />
           <div className={styles.test}>
             <Words 
@@ -167,16 +172,24 @@ export default function TypeTest(props) {
               wordBucket={wordBucket}
               setWordBucket={setWordBucket}
               wordsPerRow={12}
-              
             />
           </div> 
-          <input value={input} onChange={handleOnChange} onKeyDown={handleOnKeyDown} ref={inputRef}/>
-          <RefreshButton restartTest={restartTest}/>
+          <input 
+            className={styles['word-input']} 
+            value={input} 
+            onChange={handleOnChange} 
+            onKeyDown={handleOnKeyDown} 
+            ref={inputRef}/>
+          <RefreshButton 
+            restartTest={restartTest} 
+            restartTestOnClick={restartTestOnClick}
+          />
         </div>
       }
 
-      {isResultsVisible && 
+      {!tv.isTestVisible && 
         <Results 
+          timer={props.timer}
           restartTest={restartTest}
           inputRef={inputRef}
           correctCharacterCount={correctCharacterCount}
@@ -185,14 +198,6 @@ export default function TypeTest(props) {
       }
     </>
   )
-}
-
-function getGrossWPM(totalTypedEntries, time) {
-  return (totalTypedEntries / 5) / time;
-}
-
-function getNetWPM(grossWPM, uncorrectedErrors, time) {
-  return (grossWPM - uncorrectedErrors) / time; 
 }
 
 function getRandomInt(max) {

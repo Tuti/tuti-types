@@ -1,14 +1,29 @@
 import Image from "next/image"
+import { useEffect } from "react";
+import { useUser } from "../context/userContext";
+import { sendTypeTestResult } from "../firebase/firestore";
 import styles from '../styles/components/results.module.css';
+import RefreshButton from "./refreshButton";
+
 export default function Results(props) {
-  const normalizeFactor = 1
+  const user = useUser();
+  const normalizeFactor = 60 / props.timer.initialTime;
   const wpm = (props.correctCharacterCount / 5) * normalizeFactor; 
-  const accuracy = (props.correctCharacterCount / props.keystrokeCount);
+  const accuracy = props.correctCharacterCount / props.keystrokeCount;
 
-  const count = props.correctCharacterCount;
-  const keystroke = props.keystrokeCount;
+  useEffect(() => {
+    const sendResults = async () => {
+      await sendTypeTestResult({user, 
+                                wpm, 
+                                accuracy, 
+                                correctCharacterCount: props.correctCharacterCount, 
+                                keystrokeCount: props.keystrokeCount, 
+                                seconds: props.timer.initialTime
+                              });
+    }
+    sendResults();
+  }, [])
 
-  console.log({wpm, accuracy, count, keystroke});
   return(
     <div className={styles.container}>
       <ul className={styles.resultData}>
@@ -21,11 +36,7 @@ export default function Results(props) {
           <span>{`${accuracy}%`}</span>
         </li>
       </ul>
-      <button
-        onKeyDown={(e) => {props.restartTest(e)}}
-      >
-        <Image src={'/refresh.svg'} alt={'refresh icon'} width={32} height={24}/>
-      </button>
+      <RefreshButton restartTest={props.restartTest}/>
     </div>
   )
 }

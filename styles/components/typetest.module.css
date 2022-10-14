@@ -21,14 +21,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* width: 100%; */
-  /* padding: .5rem; */
-  /* border: 1px solid black; */
 }
 
-/* .test-wrapper > * {
-  padding: .5rem;
-} */
+.word-input {
+  font-size: 1rem;
+  padding: .25rem;
+}
 
 .no-outline:focus {
   outline: none;

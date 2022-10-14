@@ -4,12 +4,10 @@
   align-items: center;
   min-height: 100vh;
   background-color: rgb(51, 58, 69);
+  color: #939EAD;
 }
 
-.center-content {
+.account-wrapper {
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  width: 60vw;
+  
 }

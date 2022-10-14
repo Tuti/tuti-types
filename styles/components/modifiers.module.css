@@ -1,8 +1,11 @@
 
 .modifiers {
   display: flex;
-  max-width: fit-content;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
   padding: .5rem;
+  max-width: 100%;
   background-color: rgb(46, 52, 61);
 }
 
