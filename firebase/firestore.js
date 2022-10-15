@@ -20,7 +20,7 @@ export async function sendUserData(user) {
 export async function sendTypeTestResult(results) {
   try {
     const language = 'english200' //must have word list number, fix later to come with results parameter
-    const seconds = results.seconds;
+    const seconds = results.seconds + 'seconds';
     
     const resultRef = await addDoc(collection(db, `tests/${language}/${seconds}`), {
       user: results.user.displayName,
