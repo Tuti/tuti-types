@@ -1,11 +1,14 @@
-import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { useUser } from '../context/userContext';
-import { auth } from '../firebase/firebase';
-import Image from 'next/image';
-import styles from '../styles/components/navbar.module.css';
 import { useTestVisible } from '../context/testContext';
-
+import { useUser } from '../context/userContext';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+import { Login } from './svgs/login';
+import { Logout } from './svgs/logout';
+import styles from '../styles/components/navbar.module.css';
+import LogoutButton from './logoutButton';
+import LoginButton from './loginButton';
+import AccountButton from './accountButton';
 
 export default function Navbar() {
   const router = useRouter();
@@ -29,26 +32,12 @@ export default function Navbar() {
       <div className={styles['right']}>
         {user !== null && 
           <>
-            <div 
-              className={styles['button']} 
-              onClick={() => {router.push('/account')}}
-            > 
-              {user?.displayName}
-            </div>
-            <div
-              className={styles['button']} 
-              onClick={() => {signOut(auth)}}
-            >
-              {/* change color later and change fix height alignment*/}
-              <Image src={'/signout.svg'} alt={'signout icon'} width={24} height={24}/>
-              
-            </div>
+            <AccountButton />
+            <LogoutButton />
           </>
         }
         {user === null && 
-          <>
-            <button onClick={routeToLogin}>login</button>
-          </>
+         <LoginButton />
         }
       </div>
     </div>

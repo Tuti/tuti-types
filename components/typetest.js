@@ -95,7 +95,7 @@ export default function TypeTest(props) {
   }
 
   function restartTest(e) {
-    if(e.keyCode !== 13) { return }
+    // if(e.keyCode !== 13) { return }
     
     setInput('');
     if(tv.isTestVisible) {
