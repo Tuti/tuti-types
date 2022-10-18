@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
 import styles from '../styles/components/accountButton.module.css';
 
-export default function AccountButton(props) {
+export default function AccountButton() {
   const router = useRouter();
-  const user = useUser();  
+  const user = useUser();
+
   return(
     <button 
       className={styles['account-button']} 

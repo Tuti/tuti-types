@@ -1,18 +1,16 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: clamp(500px, 50vw, 800px);
 }
 
 .row {
   display: flex;
-  flex-wrap: nowrap;
-  max-width: 100%;
+  gap: .6rem;
 }
 
 .word {
   display: flex;
-  margin: 0 .2rem;
   font-size: 1.75rem;
   color: #939EAD;
 }

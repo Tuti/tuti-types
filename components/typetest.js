@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { wordsTop200, wordsTop1000 } from '../wordlist.js';
+import { useTestVisible } from "../context/testContext.js";
 import Counter from "../components/counter";
 import Words from '../components/words';
 import Results from "../components/results";
 import RefreshButton from '../components/refreshButton.js';
 import styles from '../styles/components/typetest.module.css';
-import { useTestVisible } from "../context/testContext.js";
 
 export default function TypeTest(props) {
   const inputRef = useRef();
@@ -21,6 +21,7 @@ export default function TypeTest(props) {
   
   const [keystrokeCount, setKeystrokeCount] = useState(0);
   const [correctCharacterCount, setCorrectCharacterCount] = useState(0);
+  const [correctWordCount, setCorrectWordCount] = useState(0);
 
   function fillWordBucket() {
     let word = '';
@@ -63,6 +64,7 @@ export default function TypeTest(props) {
     const uInput = input;
     const activeWord = wordBucket[activeIndex];
     const cCharacterCount = correctCharacterCount; 
+    const cWordCount = correctWordCount;
     let wBucket = wordBucket;
 
     if(uInput !== activeWord.word) { 
@@ -76,6 +78,7 @@ export default function TypeTest(props) {
     wBucket[activeIndex] = word;
     setWordBucket(wBucket);    
     setCorrectCharacterCount(cCharacterCount + uInput.length + 1);
+    setCorrectWordCount(cWordCount + 1);
   }
 
   function incrementKeystrokeCount(e) {
@@ -95,7 +98,7 @@ export default function TypeTest(props) {
   }
 
   function restartTest(e) {
-    // if(e.keyCode !== 13) { return }
+    if(e.keyCode !== 13) { return }
     
     setInput('');
     if(tv.isTestVisible) {
@@ -147,7 +150,7 @@ export default function TypeTest(props) {
     if(!props.isActiveTest && input !== '' && props.timer.initialTime === props.timer.currentTime) {
       props.setIsActiveTest(true);
     }
-  }, [props.isActiveTest, input, props.timer]);
+  }, [props.isActiveTest, input, props, props.timer]);
 
   useEffect(() => {
     fillWordBucket();
@@ -186,7 +189,6 @@ export default function TypeTest(props) {
           />
         </div>
       }
-
       {!tv.isTestVisible && 
         <Results 
           timer={props.timer}
@@ -194,6 +196,7 @@ export default function TypeTest(props) {
           inputRef={inputRef}
           correctCharacterCount={correctCharacterCount}
           keystrokeCount={keystrokeCount}
+          correctWordCount={correctWordCount}
         />
       }
     </>

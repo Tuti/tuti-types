@@ -3,7 +3,6 @@ import { useUser } from "../context/userContext"
 import styles from '../styles/Account.module.css'
 
 export default function Account() {
-
   const user = useUser();
 
   return(
@@ -11,6 +10,7 @@ export default function Account() {
       <Navbar />
       <div className={styles['account-wrapper']}>
         <div>{user?.email}</div>
+        <div className={styles['title']}>WORK IN PROGRESS</div>
       </div>
     </div>
   )

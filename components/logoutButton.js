@@ -1,5 +1,6 @@
+import { auth} from '../firebase/firebase';
+import { signOut } from 'firebase/auth';
 import { Logout } from './svgs/logout';
-import { auth } from '../firebase/firebase';
 import styles from '../styles/components/logoutButton.module.css';
 
 export default function LogoutButton () {
