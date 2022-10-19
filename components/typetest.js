@@ -13,10 +13,12 @@ export default function TypeTest(props) {
 
   const [input, setInput] = useState('');
   const [isInputCorrect, setIsInputCorrect] = useState(true);
+  
   const [wordList, setWordList] = useState('Top200');
   const [wordBucket, setWordBucket] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [rowOffsets, setRowOffsets] = useState([]);
+
   const [keystrokeCount, setKeystrokeCount] = useState(0);
   const [correctCharacterCount, setCorrectCharacterCount] = useState(0);
   const [correctWordCount, setCorrectWordCount] = useState(0);
@@ -184,20 +186,6 @@ export default function TypeTest(props) {
   useEffect(() => {
     fillWordBucket();
   }, []);
-
-  // useEffect(() => {
-  //   function handleResize() {
-  //     setDimensions({
-  //       height: window.innerHeight,
-  //       width: window.innerWidth
-  //     });
-  //   }
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   } 
-  // }, []);
 
   return(
     <>
