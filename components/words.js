@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/components/words.module.css';
 
 export default function Words(props) {
+
+  const [dimensions, setDimensions] = useState();
   const words = props.wordBucket.map((value, index) => {
     return  <Word 
               key={index} 
@@ -15,6 +17,20 @@ export default function Words(props) {
               updateOffset={props.updateOffset}           
             />    
   });
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      });
+    }
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    } 
+  }, []);
 
     return(
     <div className={styles.words}>
@@ -30,7 +46,7 @@ function Word(props) {
     const offset = domRef.current.offsetTop;
     props.updateOffset(props.index, offset);
   },[]);
-
+  
   return(
     <div className={styles['word']}>
       {props.isActive &&  
