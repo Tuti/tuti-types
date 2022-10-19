@@ -2,7 +2,6 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Navbar from '../components/navbar';
-import { useUser } from '../context/userContext';
 import { auth } from '../firebase/firebase';
 import styles from '../styles/Login.module.css';
 
@@ -14,7 +13,6 @@ export default function Login() {
   const [loginPassword, setLoginPassword] = useState('');
   const [message, setMessage] = useState('msg');
 
-  const user = useUser();
   const router = useRouter();
 
   function handleSignUp() {
@@ -27,7 +25,6 @@ export default function Login() {
       setMessage('Passwords do not match');
       return;
     }
-    
 
     createUserWithEmailAndPassword(auth, createEmail.email, createPassword.password)
       .then((userCredential) => {

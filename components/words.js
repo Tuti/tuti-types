@@ -1,57 +1,52 @@
+import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/components/words.module.css';
 
 export default function Words(props) {
-  const activeRow = props.wordBucket.slice(props.rowIndex, (props.rowIndex + props.wordsPerRow)).map((value, index) => {
-    return <Word 
-              key={value.id} 
+  const words = props.wordBucket.map((value, index) => {
+    return  <Word 
+              key={index} 
+              index={index}
               className={styles.word} 
               word={value.word}
-              isActive={(props.activeIndex - props.rowIndex) === index}
+              isActive={(index === props.activeIndex)}
               isInputCorrect={props.isInputCorrect}
               isCorrect={value.isCorrect}
               isCompleted={value.isCompleted}
+              updateOffset={props.updateOffset}           
             />    
   });
 
-  const nextRow = props.wordBucket.slice(props.rowIndex + props.wordsPerRow, props.rowIndex + props.wordsPerRow * 2).map((value) => {
-    return <Word
-            key={value.id}
-            className={styles.word}
-            word={value.word}
-            isCorrect={value.isCorrect}
-            isCompleted={value.isCompleted}
-          />
-  });
-
-  return(
+    return(
     <div className={styles.words}>
-      <div className={styles.row}>
-        {activeRow}
-      </div>
-      <div className={styles.row}>
-        {nextRow}
-      </div>
+      {words}
     </div>
   )
 }
 
 function Word(props) {
+  const domRef = useRef();
+
+  useEffect(() => {
+    const offset = domRef.current.offsetTop;
+    props.updateOffset(props.index, offset);
+  },[]);
+
   return(
-    <div className={styles.word}>
+    <div className={styles['word']}>
       {props.isActive &&  
-        <div className={props.isInputCorrect ? `${styles.correct}` : `${styles.incorrect}`}>
+        <div className={props.isInputCorrect ? styles['correct'] : styles['incorrect']} ref={domRef}>
           {props.word}
         </div>
       }
       {!props.isActive && props.isCompleted && 
-        <div className={props.isCorrect ? styles['final-correct'] : styles['final-incorrect']}>
+        <div className={props.isCorrect ? styles['final-correct'] : styles['final-incorrect']} ref={domRef}>
           {props.word}
         </div>
       }
       {!props.isActive && !props.isCompleted && 
-        <>
+        <div className={styles['not-passed']} ref={domRef}>
           {props.word}
-        </>
+        </div>
       }
     </div>
   )

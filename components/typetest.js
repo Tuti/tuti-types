@@ -17,8 +17,8 @@ export default function TypeTest(props) {
   const [wordList, setWordList] = useState('Top200');
   const [wordBucket, setWordBucket] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [rowIndex, setRowIndex] = useState(0);
-  
+  const [rowOffsets, setRowOffsets] = useState([]);
+
   const [keystrokeCount, setKeystrokeCount] = useState(0);
   const [correctCharacterCount, setCorrectCharacterCount] = useState(0);
   const [correctWordCount, setCorrectWordCount] = useState(0);
@@ -29,9 +29,22 @@ export default function TypeTest(props) {
 
     for(let i = 0; i < 500; i++) {
       word = getRandomWord();
-      words.push({word: word, userInput: '', isCorrect: false, isCompleted: false, id: i});
+      words.push({word: word, userInput: '', isCorrect: false, isCompleted: false, offset: 0});
     }
     setWordBucket(words);
+  }
+
+  function updateOffset(index, offset) {
+    let bucket = wordBucket;
+    let rOffset = rowOffsets;
+    const word = wordBucket[index];
+    bucket[index]= {...word, offset: offset};
+    
+    if(!rOffset.includes(offset)) {
+      rOffset.push(offset);
+      setRowOffsets(rOffset);
+    }
+    setWordBucket(bucket);
   }
 
   function getRandomWord() {
@@ -90,11 +103,30 @@ export default function TypeTest(props) {
   }
 
   function nextWord() {
-    if(rowIndex + 12 - 1 === activeIndex) {
-      setRowIndex(activeIndex + 1);
+    //TODO:
+    //When resizing the app window, this does not update 
+    //the word element offset state which is what makes this 
+    //work. Need to rerender/update word offsets in 
+    //order to fix.
+
+    const nextWord = activeIndex + 1;
+    const rOffsets = rowOffsets;
+    const wBucket = wordBucket;
+
+    if(wBucket[nextWord].offset === rOffsets[1] ) {
+      const updatedBucket = () => {
+        for(let i = 0; i < wBucket.length; i++) {
+          if(wBucket[i].offset === rOffsets[1]) {
+            return wBucket.slice(i);
+          }
+        }
+      }
+      setWordBucket(updatedBucket);
+      setRowOffsets(rowOffsets => rowOffsets.slice(1));
+      setActiveIndex(0);
+      return;
     }
-    const aIndex = activeIndex;
-    setActiveIndex(aIndex + 1);
+    setActiveIndex(activeIndex => activeIndex + 1);
   }
 
   function restartTest(e) {
@@ -107,7 +139,6 @@ export default function TypeTest(props) {
 
     fillWordBucket();
     setActiveIndex(0);
-    setRowIndex(0);
     setCorrectCharacterCount(0);
     setKeystrokeCount(0);
     setIsInputCorrect(true);
@@ -170,11 +201,11 @@ export default function TypeTest(props) {
           <div className={styles.test}>
             <Words 
               activeIndex={activeIndex}
-              rowIndex={rowIndex}
               isInputCorrect={isInputCorrect}
               wordBucket={wordBucket}
               setWordBucket={setWordBucket}
               wordsPerRow={12}
+              updateOffset={updateOffset}
             />
           </div> 
           <input 

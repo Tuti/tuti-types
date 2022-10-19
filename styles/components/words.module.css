@@ -1,12 +1,10 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  width: clamp(500px, 50vw, 800px);
-}
-
-.row {
-  display: flex;
+  overflow: hidden;
   gap: .6rem;
+  height: clamp(40px, 80px, 100px);
+  width: clamp(500px, 60vw, 800px);
 }
 
 .word {
@@ -35,4 +33,8 @@
 
 .final-incorrect { 
   color: red;
+}
+
+.not-passed {
+  
 }

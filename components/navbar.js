@@ -12,10 +12,11 @@ export default function Navbar() {
   const tv = useTestVisible();
 
   function routeToHome() {
+    //TODO: 
     //If pressed in results page, will bring you back to test
-    //page with whatever was left in the user input 
-    //To fix, will need to pull state up or use a global state manager
-    //Will fix in the future once I decide what solution to do
+    //page with whatever was left in the user input. To fix, will 
+    //need to pull state up or use a global state manager. Will fix
+    //in the future once I decide what solution to do
     tv.setIsTestVisible(true);
     router.push('/');
   }

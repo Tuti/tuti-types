@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Refresh } from './svgs/refresh'
 import styles from '../styles/components/refreshbutton.module.css';
 

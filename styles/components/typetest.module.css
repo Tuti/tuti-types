@@ -14,13 +14,11 @@
   justify-content: center;
   align-items: center;
   gap: .5rem;
+  height: 500px;
 }
 
 .test {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .word-input {
