@@ -1,8 +1,7 @@
-import { getFirestore, addDoc, collection, connectFirestoreEmulator, serverTimestamp, doc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, connectFirestoreEmulator, serverTimestamp } from "firebase/firestore";
 import { app } from './firebase';
 
 const db = getFirestore(app);
-connectFirestoreEmulator(db, 'localhost', 8080);
 
 export async function sendUserData(user) {
   try {
