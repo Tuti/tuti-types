@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from '../styles/components/words.module.css';
 
 export default function Words(props) {
   const words = props.wordBucket.map((value, index) => {
     return  <Word 
-              key={index} 
+              key={index}
               index={index}
               className={styles.word} 
               word={value.word}
@@ -17,19 +17,32 @@ export default function Words(props) {
   });
 
     return(
-    <div className={styles.words}>
+    <div className={styles['words']}>
       {words}
-    </div>
+    </div> 
   )
 }
 
 function Word(props) {
   const domRef = useRef();
+  const word = props.word;
 
   useEffect(() => {
     const offset = domRef.current.offsetTop;
     props.updateOffset(props.index, offset);
-  },[]);
+  },[word]);
+  
+  useEffect(() => {
+    function handleResize() {
+      const offset = domRef.current.offsetTop;
+      props.updateOffset(props.index, offset);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    } 
+  }, []);
 
   return(
     <div className={styles['word']}>

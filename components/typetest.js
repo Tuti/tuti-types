@@ -13,12 +13,10 @@ export default function TypeTest(props) {
 
   const [input, setInput] = useState('');
   const [isInputCorrect, setIsInputCorrect] = useState(true);
-  
   const [wordList, setWordList] = useState('Top200');
   const [wordBucket, setWordBucket] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [rowOffsets, setRowOffsets] = useState([]);
-
   const [keystrokeCount, setKeystrokeCount] = useState(0);
   const [correctCharacterCount, setCorrectCharacterCount] = useState(0);
   const [correctWordCount, setCorrectWordCount] = useState(0);
@@ -76,8 +74,6 @@ export default function TypeTest(props) {
   function updateWordStats() {
     const uInput = input;
     const activeWord = wordBucket[activeIndex];
-    const cCharacterCount = correctCharacterCount; 
-    const cWordCount = correctWordCount;
     let wBucket = wordBucket;
 
     if(uInput !== activeWord.word) { 
@@ -89,26 +85,18 @@ export default function TypeTest(props) {
 
     let word = {...activeWord, isCompleted: true, isCorrect: true}
     wBucket[activeIndex] = word;
-    setWordBucket(wBucket);    
-    setCorrectCharacterCount(cCharacterCount + uInput.length + 1);
-    setCorrectWordCount(cWordCount + 1);
+    setWordBucket(wBucket);
+    setCorrectCharacterCount(correctCharacterCount => correctCharacterCount + uInput.length + 1);
+    setCorrectWordCount(correctWordCount => correctWordCount + 1);
   }
 
   function incrementKeystrokeCount(e) {
     const functionKeysNotIncluded = [8, 16, 17, 18, 37, 38, 39, 40, 224];
     if(functionKeysNotIncluded.includes(e.keyCode)) { return }
-
-    const kCount = keystrokeCount
-    setKeystrokeCount(kCount + 1);
+    setKeystrokeCount(keystrokeCount => keystrokeCount + 1);
   }
 
   function nextWord() {
-    //TODO:
-    //When resizing the app window, this does not update 
-    //the word element offset state which is what makes this 
-    //work. Need to rerender/update word offsets in 
-    //order to fix.
-
     const nextWord = activeIndex + 1;
     const rOffsets = rowOffsets;
     const wBucket = wordBucket;
@@ -122,7 +110,6 @@ export default function TypeTest(props) {
         }
       }
       setWordBucket(updatedBucket);
-      setRowOffsets(rowOffsets => rowOffsets.slice(1));
       setActiveIndex(0);
       return;
     }
@@ -137,7 +124,9 @@ export default function TypeTest(props) {
       inputRef.current.focus();
     }
 
+    setWordBucket ([]);
     fillWordBucket();
+    setRowOffsets([]);
     setActiveIndex(0);
     setCorrectCharacterCount(0);
     setKeystrokeCount(0);
@@ -154,8 +143,8 @@ export default function TypeTest(props) {
     }
 
     fillWordBucket();
+    setRowOffsets([]);
     setActiveIndex(0);
-    setRowIndex(0);
     setCorrectCharacterCount(0);
     setKeystrokeCount(0);
     setIsInputCorrect(true);
