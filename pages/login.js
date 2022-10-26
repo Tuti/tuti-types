@@ -86,12 +86,14 @@ export default function Login() {
               onChange={(e) => setCreateEmail({...createEmail, confirmEmail: e.target.value})}
             />
             <input 
-              placeholder='password' 
+              placeholder='password'
+              type={'password'}
               value={createPassword.password} 
               onChange={(e) => {setCreatePassword({...createPassword, password: e.target.value})}}
             />
             <input 
-              placeholder='verify password' 
+              placeholder='verify password'
+              type={'password'}
               value={createPassword.confirmpass} 
               onChange={(e) => {setCreatePassword({...createPassword, confirmpass: e.target.value})}}
             />
@@ -107,7 +109,8 @@ export default function Login() {
               onChange={(e) => setLoginEmail(e.target.value)}
             />
             <input 
-              placeholder='password' 
+              placeholder='password'
+              type={'password'}
               value={loginPassword} 
               onChange={(e) => setLoginPassword(e.target.value)}
             />
