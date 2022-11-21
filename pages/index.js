@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Head from 'next/head';
 import Modifiers from '../components/modifiers'
 import Navbar from '../components/navbar'
 import TypeTest from '../components/typetest'
@@ -16,6 +17,11 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Tuti Types</title>
+        <meta name="Tuti Types" content="a typing test website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <nav>
         <Navbar />
         <Modifiers

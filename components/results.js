@@ -11,6 +11,7 @@ export default function Results(props) {
   const accuracy = props.correctCharacterCount / props.keystrokeCount;
   const parsedAccuracy = parseFloat((accuracy * 100)).toFixed(2)+'%';
   const incorrectCharacterCount = props.keystrokeCount - props.correctCharacterCount;
+  
   useEffect(() => {
     const sendResults = async () => {
       await sendTypeTestResult({user, 

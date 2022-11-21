@@ -174,6 +174,7 @@ export default function TypeTest(props) {
 
   useEffect(() => {
     fillWordBucket();
+    inputRef.current.focus();
   }, []);
 
   return(
